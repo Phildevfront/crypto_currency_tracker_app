@@ -29,11 +29,11 @@ app.post('/register', (req, res)=>{
 	const sentUserName = req.body.UserName
 	const sentPassword = req.body.Password
 	// Lets create SQL statement to insert the user data to the database table users
+
 	const SQL = 'INSERT INTO users (email, username, password) VALUES (?,?,?)'
 	// We are going to enter these values through a variable
 	const Values = [sentEmail, sentUserName, sentPassword]
 
-	console.log('Values', Values)
 
 	// Query to execute the sql statement stated above
 	db.query(SQL, Values, (err, results)=>{
