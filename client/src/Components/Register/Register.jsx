@@ -1,10 +1,10 @@
 /* eslint-disable no-unused-vars */
 
 import React, { useState } from 'react'
+import Axios from 'axios'
 import '../../App.css'
 import './Register.css'
 import { Link } from 'react-router-dom'
-import axios from 'axios'
 
 // Import our assets
 import video from '../../LoginAssets/video bitcoin.mp4'
@@ -18,6 +18,47 @@ import {MdMarkEmailRead} from 'react-icons/md'
 
 
 function Register () {
+const [emailReg, setemailReg] = useState("");
+const [usernameReg, setUsernameReg] = useState("");
+const [passwordReg, setPasswordReg] = useState ("");
+
+const [email, setEmail] = useState("");
+const [username, setUsername] = useState("");
+const [password, setPassword] = useState ("");
+
+
+
+Axios.defaults.withCredentials = true;
+const register = () => {
+    Axios.post("http://localhost:5173/register", {
+	email : emailReg,
+    username: usernameReg,
+    password: passwordReg,
+    }).then((response) => {
+      console.log(response);
+    });
+ };
+
+//  const login = () => {
+//  Axios.post("http://localhost:3001/login", {
+//     username: username,
+//     password: password,
+//  }).then((response) => {
+//     if (!response.data.message) {
+//        setLoginStatus( response.data.message);
+//     } else {
+//        setLoginStatus (response.data[0].message);
+//     }
+//  });
+//  };
+
+// useEffect(() => {
+//     Axios.get("http://localhost:3002/login").then((response) => {
+//       if (response.data.loggedIn == true) {
+//         setRole(response.data.user[0].role);
+//       }
+//     });
+//   }, []);
 
   return (
 	<div className='registerPage flex'>
@@ -40,14 +81,13 @@ function Register () {
 					<img src={logo} alt="Logo Image"/>
 					<h3>REGISTER</h3>
 				</div>
-				<form action="" method="post" onSubmit={handleSubmit} className='form grid'>
+				<form action="" method="post" className='form grid'>
 					<div className="inputDiv">
 						<label htmlFor="email">Email</label>
 						<div className="input flex">
 						<MdMarkEmailRead className='icon'/>
 						<input type="email" name="email" id="email" placeholder='Enter Email'
-						value={email}
-						onChange={e => setEmail(e.target.value)}/>
+						onChange={e => setemailReg(e.target.value)}/>
 						</div>
 					</div>
 					<div className="inputDiv">
@@ -55,8 +95,10 @@ function Register () {
 						<div className="input flex">
 						<FaUserShield className='icon'/>
 						<input type="text" name="username" id="username" placeholder='Enter Username'
-						value={username}
-						onChange={e => setUserName(e.target.value)}/>
+						onChange={(e) => {
+							setUsernameReg(e.target.value);
+						}}
+						/>
 						</div>
 					</div>
 					<div className="inputDiv">
@@ -64,11 +106,10 @@ function Register () {
 						<div className="input flex">
 						<BsFillShieldLockFill className='icon'/>
 						<input type="password" name="password" id="password" placeholder='Enter Password'
-						value={password}
-						onChange={e => setPassword(e.target.value)}/>
+						onChange={e => setPasswordReg(e.target.value)}/>
 						</div>
 					</div>
-					<button type="submit" value="Login" className='btn flex'>
+					<button type="submit" value="Login" className='btn flex' onClick={register}>
 						<span>Register</span>
 						<AiOutlineSwapRight className='icon' />
 					</button>
